@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"io"
 	"strconv"
-
-	"temperature-converter/pkg/converter"
 )
 
-func Convert(in io.Reader) (int, error) {
+type TempConverter interface {
+	Convert(choice string, temp int) (int, error)
+}
+
+func Convert(in io.Reader, service TempConverter) (int, error) {
 	s := bufio.NewScanner(in)
 	s.Split(bufio.ScanWords)
 
@@ -29,6 +31,5 @@ func Convert(in io.Reader) (int, error) {
 		return 0, err
 	}
 
-	tempConverter := converter.New()
-	return tempConverter.Convert(choice, tempNum)
+	return service.Convert(choice, tempNum)
 }
