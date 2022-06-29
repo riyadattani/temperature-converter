@@ -42,13 +42,30 @@ func TestTempConverter(t *testing.T) {
 
 	cmdPath := filepath.Join(dir, binName)
 
-	t.Run("Converts Fahrenheit to Celcius", func(t *testing.T) {
+	t.Run("Converts Fahrenheit to Celsius", func(t *testing.T) {
 		cmd := exec.Command(cmdPath)
 
 		cmdStdIn, err := cmd.StdinPipe()
 		assert.NoError(t, err)
 
 		io.WriteString(cmdStdIn, "C ")
+		io.WriteString(cmdStdIn, "32")
+		cmdStdIn.Close()
+
+		out, err := cmd.CombinedOutput()
+		celsius := string(out)
+
+		assert.Contains(t, celsius, "0")
+	})
+
+	t.Run("Converts Celsius to Fahrenheit", func(t *testing.T) {
+		cmd := exec.Command(cmdPath)
+
+		cmdStdIn, err := cmd.StdinPipe()
+		assert.NoError(t, err)
+
+		// todo: need a space after choice for it to work, handle this properly
+		io.WriteString(cmdStdIn, "F ")
 		io.WriteString(cmdStdIn, "32")
 		cmdStdIn.Close()
 

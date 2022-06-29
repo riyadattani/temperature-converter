@@ -37,13 +37,12 @@ func main() {
 	}
 
 	switch choice {
-	case "C":
-		fahrenheit := tempNum*(9/5) + 32
-		fmt.Println(fahrenheit)
 	case "F":
-		celcius := (tempNum - 32) * 5 / 9
-
-		fmt.Println(celcius)
+		fahrenheit := (tempNum * (9 / 5)) + 32
+		fmt.Println(fahrenheit)
+	case "C":
+		celsius := (tempNum - 32) * (5 / 9)
+		fmt.Println(celsius)
 	default:
 		fmt.Println("incorrect choice")
 	}
