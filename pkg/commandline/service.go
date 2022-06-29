@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"strconv"
+
+	"temperature-converter/pkg/converter"
 )
 
 func Convert(in io.Reader) (int, error) {
@@ -35,13 +37,13 @@ func Convert(in io.Reader) (int, error) {
 		return 0, err
 	}
 
+	tempConverter := converter.New(tempNum)
+
 	switch choice {
 	case "F":
-		fahrenheit := (tempNum * (9 / 5)) + 32
-		return fahrenheit, nil
+		return tempConverter.CelsiusToFahrenheit(), nil
 	case "C":
-		celsius := (tempNum - 32) * (5 / 9)
-		return celsius, nil
+		return tempConverter.FahrenheitToCelsius(), nil
 	default:
 		return 0, fmt.Errorf("incorrect choice %s", choice)
 	}
