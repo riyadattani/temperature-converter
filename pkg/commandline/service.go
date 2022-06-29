@@ -29,6 +29,6 @@ func Convert(in io.Reader) (int, error) {
 		return 0, err
 	}
 
-	tempConverter := converter.New(choice, tempNum)
-	return tempConverter.Convert()
+	tempConverter := converter.New()
+	return tempConverter.Convert(choice, tempNum)
 }

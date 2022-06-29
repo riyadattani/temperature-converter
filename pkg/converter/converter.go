@@ -3,30 +3,28 @@ package converter
 import "fmt"
 
 type TempConverter struct {
-	temp   int
-	choice string
 }
 
-func New(choice string, temp int) *TempConverter {
-	return &TempConverter{choice: choice, temp: temp}
+func New() *TempConverter {
+	return &TempConverter{}
 }
 
-func (t TempConverter) Convert() (int, error) {
-	switch t.choice {
+func (t TempConverter) Convert(choice string, temp int) (int, error) {
+	switch choice {
 	case "F":
-		return t.celsiusToFahrenheit(), nil
+		return t.celsiusToFahrenheit(temp), nil
 	case "C":
-		return t.fahrenheitToCelsius(), nil
+		return t.fahrenheitToCelsius(temp), nil
 	default:
 		// todo: test me
-		return 0, fmt.Errorf("invalid choice %s", t.choice)
+		return 0, fmt.Errorf("invalid choice %s", choice)
 	}
 }
 
-func (t TempConverter) celsiusToFahrenheit() int {
-	return (t.temp * (9 / 5)) + 32
+func (t TempConverter) celsiusToFahrenheit(temp int) int {
+	return (temp * (9 / 5)) + 32
 }
 
-func (t TempConverter) fahrenheitToCelsius() int {
-	return (t.temp - 32) * (5 / 9)
+func (t TempConverter) fahrenheitToCelsius(temp int) int {
+	return (temp - 32) * (5 / 9)
 }
