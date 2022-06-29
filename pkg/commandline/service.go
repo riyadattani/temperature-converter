@@ -1,15 +1,14 @@
-package main
+package commandline
 
 import (
 	"bufio"
 	"fmt"
-	"log"
-	"os"
+	"io"
 	"strconv"
 )
 
-func main() {
-	s := bufio.NewScanner(os.Stdin)
+func Convert(in io.Reader) (int, error) {
+	s := bufio.NewScanner(in)
 	s.Split(bufio.ScanWords)
 
 	fmt.Printf("\nPress C to convert from Fahrenheit to Celsius.\nPress F to convert from Celsius to Fahrenheit.\nYour choice: \n")
@@ -19,7 +18,7 @@ func main() {
 		choice = s.Text()
 	}
 	if err := s.Err(); err != nil {
-		log.Fatalf("unable to scan choice: %v", err)
+		return 0, fmt.Errorf("unable to scan choice: %v", err)
 	}
 
 	var tempToConvert string
@@ -28,22 +27,22 @@ func main() {
 		tempToConvert = s.Text()
 	}
 	if err := s.Err(); err != nil {
-		log.Fatalf("unable to scan temperature to convert: %v", err)
+		return 0, fmt.Errorf("unable to scan temperature to convert: %v", err)
 	}
 
 	tempNum, err := strconv.Atoi(tempToConvert)
 	if err != nil {
-		log.Fatal(err)
+		return 0, err
 	}
 
 	switch choice {
 	case "F":
 		fahrenheit := (tempNum * (9 / 5)) + 32
-		fmt.Println(fahrenheit)
+		return fahrenheit, nil
 	case "C":
 		celsius := (tempNum - 32) * (5 / 9)
-		fmt.Println(celsius)
+		return celsius, nil
 	default:
-		fmt.Println("incorrect choice")
+		return 0, fmt.Errorf("incorrect choice %s", choice)
 	}
 }
