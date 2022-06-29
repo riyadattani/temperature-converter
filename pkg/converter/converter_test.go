@@ -10,12 +10,16 @@ import (
 
 func TestTemperatureConverter_CelsiusToFahrenheit(t *testing.T) {
 	t.Run("convert celsius to fahrenheit", func(t *testing.T) {
-		tempConverter := converter.New(32)
-		assert.Equal(t, 64, tempConverter.CelsiusToFahrenheit())
+		tempConverter := converter.New("F", 32)
+		temp, err := tempConverter.Convert()
+		assert.NoError(t, err)
+		assert.Equal(t, 64, temp)
 	})
 
 	t.Run("convert fahrenheit to celsius", func(t *testing.T) {
-		tempConverter := converter.New(32)
-		assert.Equal(t, 0, tempConverter.FahrenheitToCelsius())
+		tempConverter := converter.New("C", 32)
+		temp, err := tempConverter.Convert()
+		assert.NoError(t, err)
+		assert.Equal(t, 0, temp)
 	})
 }
